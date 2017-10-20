@@ -1,0 +1,63 @@
+{
+  "name": "todomvc-pwa",
+  "version": "1.0.0",
+  "description": "A PWA demo based on todomvc",
+  "private": true,
+  "dependencies": {
+    "egg": "^1.9.0",
+    "egg-scripts": "^2.1.0",
+    "koa": "^2.3.0"
+  },
+  "devDependencies": {
+    "autod": "^2.10.0",
+    "autod-egg": "^1.0.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.1",
+    "babel-loader": "^7.1.2",
+    "directory-named-webpack-plugin": "^2.2.3",
+    "egg-bin": "^4.3.0",
+    "egg-ci": "^1.8.0",
+    "egg-mock": "^3.13.0",
+    "eslint": "^4.9.0",
+    "eslint-config-egg": "^5.1.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-html": "^3.2.2",
+    "extract-text-webpack-plugin": "^3.0.1",
+    "html-webpack-plugin": "^2.30.1",
+    "koa-webpack-dev-middleware": "^2.0.2",
+    "todomvc-app-css": "^2.1.0",
+    "toxic-predicate-functions": "^0.1.5",
+    "vue": "^2.5.2",
+    "vue-loader": "^13.3.0",
+    "vue-template-compiler": "^2.5.2",
+    "vuex": "^3.0.0",
+    "webpack": "^3.8.1",
+    "webstorm-disable-index": "^1.2.0",
+    "write-file-webpack-plugin": "^4.2.0"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "scripts": {
+    "start": "egg-scripts start --daemon",
+    "stop": "egg-scripts stop",
+    "dev": "egg-bin dev",
+    "debug": "egg-bin debug",
+    "test": "npm run lint -- --fix && npm run test-local",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
+    "lint": "eslint .",
+    "ci": "npm run lint && npm run cov",
+    "autod": "autod",
+    "fe": "node webpack/dev-server.js"
+  },
+  "ci": {
+    "version": "6, 8"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "toxic-johann",
+  "license": "MIT"
+}
