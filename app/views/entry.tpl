@@ -9,6 +9,7 @@
 <body>
   <section class="todoapp">
     <h1>todos</h1>
+    <div id="container"></div>
   </section>
 </body>
 </html>

@@ -11,9 +11,5 @@
     <h1>todos</h1>
     <div id="container"></div>
   </section>
-  <footer class="info">
-    <p>Written by <a href="https://github.com/toxic-johann">Chung Heng</a></p>
-    <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
-</footer>
-<script type="text/javascript" src="http://localhost:9002/public/dist/dev/js/index_a0b0eee8cd12e28e8a63.bundle.js"></script></body>
+<script type="text/javascript" src="http://localhost:9002/public/dist/dev/js/index_def039229f257cad3a31.bundle.js"></script></body>
 </html>
