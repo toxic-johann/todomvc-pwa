@@ -5,6 +5,8 @@ const webpack = require('webpack');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const notifier = require('node-notifier');
 
 // 配置 entry 入口
 const files = glob.sync(path.resolve(__dirname, '../app/components/**/page/*/entry.*.js'));
@@ -106,5 +108,18 @@ module.exports = {
     }),
     new ExtractTextPlugin({ filename: 'css/[name]-[contenthash].css' }),
     ...htmlWebpackPlugins,
+    new FriendlyErrorsWebpackPlugin({
+      onErrors: (severity, errors) => {
+        if (severity !== 'error') {
+          return;
+        }
+        const error = errors[0];
+        notifier.notify({
+          title: 'Webpack error',
+          message: severity + ': ' + error.name,
+          subtitle: error.file || '',
+        });
+      },
+    }),
   ],
 };
