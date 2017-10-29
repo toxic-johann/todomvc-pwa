@@ -7,12 +7,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const notifier = require('node-notifier');
+const { deepAssign } = require('toxic-utils');
+const WebpackAssetsManifest = require('webpack-assets-manifest');
 
 // 配置 entry 入口
-const files = glob.sync(path.resolve(__dirname, '../app/components/**/page/*/entry.*.js'));
-const entries = files.reduce((entries, dir) => {
-  entries[path.basename(dir, '.js').replace('entry.', '')] = dir;
+const entries = glob.sync(path.resolve(__dirname, '../app/components/**/page/*/entry.*.js')).reduce((entries, dir) => {
+  entries[path.basename(dir, '.js').replace('entry.', '')] = [ 'webpack-hot-middleware/client?path=http://localhost:9002/__webpack_hmr&timeout=20000&reload=true', dir ];
   return entries;
+}, {});
+
+const sws = glob.sync(path.resolve(__dirname, '../app/components/**/page/*/sw.*.js')).reduce((sws, dir) => {
+  sws[path.basename(dir, '.js')] = dir;
+  return sws;
 }, {});
 
 // 配置 html 输出路径
@@ -26,22 +32,15 @@ const htmlWebpackPlugins = Object.keys(entries)
   }));
 
 module.exports = {
-  entry: entries,
+  entry: deepAssign({}, entries, sws),
   devServer: {
     contentBase: path.join(__dirname, '../app/public'),
     port: '9002',
+    hot: true,
   },
-  /**
-   * 开发环境默认开启sourcemap，debug模式
-   * webpack有七种sourcemap模式，基于性能及使用场景考虑使用哪种
-   * cheap-module简化loader相关map，eval提升rebuild效率，但不支持直接debug
-   * 使用sourceMap会卡顿的童鞋可以通过注释下面两行配置暂时关闭，必要时再开启
-   */
-  devtool: '#cheap-module-eval-source-map',
   // 开发阶段的output配置
   output: {
-    filename: 'js/[name]_[hash].bundle.js',
-    // 符合egg静态资源规范的目录，path 默认开发环境路径
+    filename: 'js/[name]-[hash].js',
     path: path.join(__dirname, '../app/public/dist/dev/'),
     publicPath: 'http://localhost:9002/public/dist/dev/',
     // 支持chrome workspace，直接编辑生效，提高开发效率
@@ -102,6 +101,11 @@ module.exports = {
         NODE_ENV: '"development"',
       },
     }),
+    new WebpackAssetsManifest({
+      output: 'webpack-assets.json',
+      writeToDisk: true,
+      publicPath: true,
+    }),
     new WriteFilePlugin({
       test: /\.tpl$/,
       log: true,
@@ -121,5 +125,7 @@ module.exports = {
         });
       },
     }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
   ],
 };

@@ -5,6 +5,9 @@ module.exports = app => {
     async index() {
       await this.ctx.render('index');
     }
+    async offline() {
+      await this.ctx.render('offline');
+    }
   }
   return HomeController;
 };

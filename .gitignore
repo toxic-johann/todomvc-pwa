@@ -10,4 +10,6 @@ run/
 .DS_Store
 *.swp
 app/public
+config/config.local.js
+dump.rdb
 

@@ -4,6 +4,7 @@ const http = require('http');
 const webpack = require('webpack');
 // 因为 eggjs 的核心还是 koa1，所以 koa-webpack-dev-middleware 用 1 的版本
 const devMiddleware = require('koa-webpack-dev-middleware');
+const hotMiddleware = require('koa-webpack-hot-middleware');
 const webpackConfig = require('./webpack.config');
 
 function devServerRun() {
@@ -57,6 +58,12 @@ function devServerRun() {
       colors: true,
     },
     // options for formating the statistics
+  }));
+
+  app.use(hotMiddleware(compiler, {
+    log: console.log,
+    path: '/__webpack_hmr',
+    // heartbeat: 10 * 1000 
   }));
 
   console.info('请等待webpack初次构建完成提示...');
