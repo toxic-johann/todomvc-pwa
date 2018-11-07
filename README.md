@@ -1,5 +1,7 @@
 # todomvc-pwa
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/toxic-johann/todomvc-pwa.svg)](https://greenkeeper.io/)
+
 A PWA demo based on todomvc
 
 ## QuickStart
